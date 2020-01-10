@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gottygedit
+  namespace: gotty-namespace            #change this
+  labels:
+    app: gottygedit
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gottygedit
+  template:
+    metadata:
+      labels:
+        app: gottygedit
+    spec:
+      hostNetwork: true
+      containers:
+      - name: gottygedit-conatiner
+        image: gotty_img      #change this
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080

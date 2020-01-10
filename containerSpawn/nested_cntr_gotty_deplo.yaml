@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mydb-deploy
+  namespace: namespace-3           #change namespace name
+spec:
+  selector:
+    matchLabels:
+      app: nested-ctr-deploy
+  template:
+    metadata:
+      labels:
+        app: nested-ctr-deploy
+    spec:
+      containers:
+      - name: nested-ctr-deploy
+        image: nstd_gotty__wth_url   # change image name WITH nested_gotty_cntr IMAGE TWO CONTAINERS WERE SPAWANED
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5011

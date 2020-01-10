@@ -1,0 +1,60 @@
+<header>
+        <div class="logo-image">
+                <img src="assets/images/GS_Lab-Color-RGB.png" class="img-fluid"
+                        style="height:47px; width:100px; margin-top:-12px; margin-left:-10px;">
+                <!-- LOGO  -->
+        </div>
+        <ul class="my-nav">
+                <li class="navlink"><a href="#">Timer</a></li>
+                <li class="navlink"><a href="#">SUBMIT</a></li>
+        </ul>
+        <div class="burger">
+                <i class="fas fa-bars"></i>
+        </div>
+</header>
+<div >
+        <div class="form-group justify-content-center" id="cardDiv" >
+                <!-- (click)="selected('file1.py')" *ngIf="show"  -->
+                <mat-card class="card" *ngFor="let i of random; let n=index" >
+                        <div style="display: flex;" >
+                                <!-- <p>{{ questions["q"+i]["q" + i]["q"+i] }}</p> -->
+                                <span style="white-space: pre-line"  >
+                                        {{ questions["q"+i]["q" + i]["h"+i] }}
+                                        hint: you can remove a given character from String by converting it into a
+                                        character
+                                        array and then using substring() method for removing them from output string.
+                                        <!-- {{files[n]}}
+                                        {{n}} -->
+                                </span>
+                                <!-- *ngFor="let item of random; index as i" -->
+                                <div style="float:right; width:20%; margin-top: auto; margin-bottom: auto;">
+                                        <mat-icon style="float:right; height:30px" (click)="selected(files[n])"><i class="material-icons">arrow_forward_ios</i>
+                                        </mat-icon>
+                                      
+                                </div>
+                        </div>
+                </mat-card>
+
+
+
+
+                <!-- <mat-card class="card" *ngFor='let item of questions'>{{item.data}}</mat-card>
+  <mat-card class="card" (click)="selected('file1.py')">1) Write a method which will remove any given character from a String?
+        hint: you can remove a given character from String by converting it into a character array and then using substring() method for removing them from output string.
+        <mat-card style="width: 20px; align-items: flex-end;"><mat-icon>mood</mat-icon></mat-card>
+</mat-card>
+  
+<mat-card class="card" (click)="selected('file2.py')"> 2) Write a method which will remove any given character from a String?
+        hint: you can remove a given character from String by converting it into a character array and then using substring() method for removing them from output string.
+</mat-card>
+<mat-card class="card" (click)="selected('file3.py')"> 3) Write a method which will remove any given character from a String?
+                        hint: you can remove a given character from String by converting it into a character array and then using substring() method for removing them from output string.
+</mat-card>
+<mat-card class="card" (click)="selected('file4.py')"> 4) Write a method which will remove any given character from a String?
+hint: you can remove a given character from String by converting it into a character array and then using substring() method for removing them from output string.
+</mat-card>
+<mat-card class="card" (click)="selected('file5.py')">5) Write a method which will remove any given character from a String?
+        hint: you can remove a given character from String by converting it into a character array and then using substring() method for removing them from output string.
+</mat-card> -->
+        </div>
+</div>

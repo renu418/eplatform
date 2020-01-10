@@ -1,0 +1,113 @@
+I am working to spawn a container from a running container.
+The problem faced by me are below
+
+ 
+ CODE1 
+    config.load_kube_config()                   # line 1
+    #config.load_incluster_config()             # line 2
+
+    with open(path.join(path.dirname(__file__), "gotty_deploy.yaml")) as f:
+        dep = yaml.safe_load(f)
+        k8s_apps_v1 = client.AppsV1Api()
+        resp = k8s_apps_v1.create_namespaced_deployment(
+            body=dep, namespace="gotty-namespace")
+        print("Deployment created. status='%s'" % resp.metadata.name)
+
+
+The above code is used to create deployment and service using the kubernetes SDK
+
+
+=>> while I am using the line 1 inside the above code and running the code inside the local machine I have successfully 
+created the deployment and and service without any error BUT there is a condition that the namespace must created prior 
+to run the above code.
+
+BUT WHEN I DEPLOYED THE ABOVE CODE IN KUBERNETES I FACED THE BELOW ERRORS
+
+1. TypeError: argument of type 'NoneType' is not iterable
+
+The above error is occured when the line is used inside the code 
+
+2. Then I have used the line 2 inside the code the I get the below error
+==>> kubernetes.client.rest.ApiException
+kubernetes.client.rest.ApiException: (403)
+Reason: Forbidden
+HTTP response headers: HTTPHeaderDict({'Content-Type': 'application/json', 'X-Content-Type-Options': 'nosniff', 'Date':
+'Fri, 03 Jan 2020 10:05:44 GMT', 'Content-Length': '346'}) HTTP response body: {"kind":"Status","apiVersion":"v1",
+"metadata":{},"status":"Failure","message":"deployments.apps is forbidden: User \"system:serviceaccount:namespaec-2:
+default\" cannot create resource \"deployments\" in API group \"apps\" in the namespace \"nested-ctr-namespace\"",
+"reason":"Forbidden","details":{"group":"apps","kind":"deployments"},"code":403}
+
+Both the above errors I have faced in the above code while I am executing the code on my local machine ie. without deploying
+in the kubernetes.
+
+============
+NOW I AM DEPLOYING THE ABOVE CODE INSIDE THE KUBERNETES
+
+BOTH THE ERRORS ARE ALSO COMING IN KUBERNETES AS WELL BUT NOW LOOK HOW I SOLVED THE ERROR
+
+
+SOLUTION TO THE ABOVE ERROR IS BELOW
+
+=>> I have used the below command once in my kubernetes 
+
+Permissive RBAC Permissions
+
+You can replicate a permissive policy using RBAC role bindings.
+
+Role-based access control (RBAC) is a method of regulating access to computer or network resources based on the roles 
+of individual users within an enterprise.
+
+Warning:
+The following policy allows ALL service accounts to act as cluster administrators. Any application running in a 
+container receives service account credentials automatically, and could perform any action against the API, including 
+viewing secrets and modifying permissions. This is not a recommended policy.
+
+$ kubectl create clusterrolebinding permissive-binding \
+  --clusterrole=cluster-admin \
+  --user=admin \
+  --user=kubelet \
+  --group=system:serviceaccounts
+
+  the link of the above command is given below
+  https://kubernetes.io/docs/reference/access-authn-authz/rbac/#upgrading-from-1-5
+
+  go to last command in the end of the page
+
+  NOTE 
+ 
+I am using line 2 inside the code and deployed in the kubernetes 
+ie. ==>  ### config.load_incluster_config() ###
+
+
+
+
+The below command will return ip address of minikube machine 
+I have executed the below command inside minikube ssh
+$  minikube ssh 
+$ ip -4 -o addr show eth1 | awk '{print $4}' | cut -d "/" -f 1
+192.168.99.100
+
+You can write this ip address in the PVC persistent volume claim and use wherever you want
+Now no need to execute the command minikube service list inside the container 
+
+I have also find the solution for the above url for gotty conatiner as well ie. 
+You can provide port number as well in the nodePort eg.
+
+kind: Service
+apiVersion: v1
+metadata:
+  name:  gottyservice-nodeport
+  namespace: namespace-3
+spec:
+  selector:
+    app:  nested-ctr-deploy
+  type:  NodePort
+  ports:
+  - name:  name-of-the-port
+    port:  5011
+    targetPort: 5011
+    nodePort: 31515     # this port will be assigned with the url 
+
+    
+ |    NAMESPACE       |           NAME            |         TARGET PORT         | URL
+ namespace-3          | gottyservice-nodeport     | http://192.168.99.100:31515 

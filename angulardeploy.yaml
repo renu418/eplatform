@@ -1,0 +1,78 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: angular
+  namespace: default
+  labels:
+    app: angular
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: angular
+  template:
+    metadata:
+      labels:
+        app: angular
+    spec:
+      containers:
+      - name: angular-cont
+        image: angularimage
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            memory: "150Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: mongo-storage
+          mountPath: /data
+      volumes:
+      - name: mongo-storage
+        persistentVolumeClaim:
+          claimName: mongo-pv-claim
+      
+
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: angular2
+#   namespace: default
+#   labels:
+#     app: angular2
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: angular2
+#   template:
+#     metadata:
+#       labels:
+#         app: angular2
+#     spec:
+#       containers:
+#       - name: angular2-cont
+#         image: angular3-python
+#         imagePullPolicy: IfNotPresent
+#         resources:
+#           requests:
+#             cpu: 100m
+#             memory: 100Mi
+#           limits:
+#             memory: "150Mi"
+#             cpu: "500m"
+#         ports:
+#         - containerPort: 80
+#         volumeMounts:
+#         - name: mongo-storage
+#           mountPath: /data/newfolder
+#       volumes:
+#       - name: mongo-storage
+#         persistentVolumeClaim:
+#           claimName: mongo-pv-claim
+      

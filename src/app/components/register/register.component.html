@@ -1,0 +1,91 @@
+<header>
+  <div class="logo-image">
+    <img src="assets/images/GS_Lab-Color-RGB.png" class="img-fluid"
+      style="height:47px; width:100px; margin-top:-12px; margin-left:-10px;">
+    <!-- LOGO  -->
+  </div>
+  <ul class="my-nav">
+    <li class="navlink"><a href="#">Timer</a></li>
+    <li class="navlink"><a href="#">SUBMIT</a></li>
+  </ul>
+  <div class="burger">
+    <i class="fas fa-bars"></i>
+  </div>
+</header>
+<div class="col-md-4 col-md-offset-4" id="login">
+
+  <section id="inner-wrapper" class="login">
+    <article>
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-user"> </i></span>
+            <input type="text" class="form-control" placeholder="Name*" formControlName="fullName"  [ngClass]="{ 'is-invalid': submitted && registerForm.get('fullName').errors }">
+            <div *ngIf="submitted && registerForm.get('fullName').errors && registerForm.get('fullName').touched" class="invalid-feedback">
+    
+            <div *ngIf="registerForm.get('fullName').errors.required">name is required</div>
+             <!-- <div [hidden]="!registerForm.valid" class="alert alert-danger">
+                Name is required.
+              </div> -->
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-envelope"> </i></span>
+            <input type="email" class="form-control" placeholder="Email Address*" formControlName="email" [ngClass]="{ 'is-invalid': submitted && registerForm.get('email').errors }">
+            <!-- <div *ngIf="registerForm.invalid" >  -->
+              <div *ngIf="submitted && registerForm.get('email').errors && registerForm.get('email').touched" class="invalid-feedback">
+              <div *ngIf="registerForm.get('email').errors.email">Email must be a valid email address</div>
+              <div *ngIf="registerForm.get('email').errors.required">email is required</div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-key"> </i></span>
+            <input type="password" class="form-control" placeholder="Password*" formControlName="password"  [ngClass]="{ 'is-invalid': submitted && registerForm.get('password').errors }">
+            <!-- <div *ngIf="registerForm.invalid" >  -->
+              <div *ngIf="submitted && registerForm.get('password').errors && registerForm.get('password').touched" class="invalid-feedback">
+                <div *ngIf="registerForm.get('password').errors.required">password is required</div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-key"> </i></span>
+            <input type="text" class="form-control" placeholder="Univeristy/College Name*" formControlName="UniversityName"  [ngClass]="{ 'is-invalid': submitted && registerForm.get('UniversityName').errors }">
+            <div *ngIf="submitted && registerForm.get('UniversityName').errors && registerForm.get('UniversityName').touched" class="invalid-feedback">
+            
+              <div *ngIf="registerForm.get('UniversityName').errors.required">University/college neme is required</div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-key"> </i></span>
+            <input type="text" class="form-control" placeholder="CGPA*" formControlName="CGPA" [ngClass]="{ 'is-invalid': submitted && registerForm.get('CGPA').errors }">
+            <div *ngIf="submitted && registerForm.get('CGPA').errors && registerForm.get('CGPA').touched" class="invalid-feedback">
+            
+              <div *ngIf="registerForm.get('CGPA').errors.required">CGPA is required</div>
+            
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-control " style="height: 80px;" >
+          <div class="form-check form-check-inline" *ngFor="let lang of languages">
+            <label>
+              <input formControlName="languageSelect" type="radio" value={{lang}} (change)="onItemChange($event)" />
+              {{lang}}
+            </label>
+          </div>
+        </div>
+        
+        <button type="submit" class="btn btn-dark btn-block" style="margin-top: 20px;">Register</button>
+         <!-- [disabled]="registerForm.invalid" -->
+         <!-- (click)="callTwo()" -->
+      </form>
+    </article>
+  </section>
+</div>
