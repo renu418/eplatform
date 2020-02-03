@@ -20,6 +20,18 @@ import { RegisterComponent } from './components/register/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule} from "ngx-toastr";
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
+import {AuthguardService} from '../app/guards/authguard.guard';
+import {AuthService} from '../app/services/auth.service';
+import { APP_ROUTES } from './routes/app.routes';
+import { RouterModule } from '@angular/router';
+import { HomeModule } from './home/home.module';
+import { MbscModule } from '@mobiscroll/angular-lite';
+import { CountdownModule } from 'ngx-countdown';
+import { NavComponent } from './nav/nav.component';
+import { CookieService } from 'ngx-cookie-service';
+import { ThankyouComponent } from './components/thankyou/thankyou.component';
+import {NgxSpinnerModule } from 'ngx-spinner';
+import {TerminalComponent} from 'src/app/components/terminal/terminal.component';
 
 @NgModule({
   declarations: [
@@ -28,18 +40,18 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
     QuestionsComponent,
     AceComponent,
     RegisterComponent,
-    
+    NavComponent,
+    ThankyouComponent,
+    TerminalComponent
     // NavComponent,
-    
-   
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     HttpClientModule,
     MatCardModule,
     AceEditorModule,
     LayoutModule,
+    MbscModule,
     MatToolbarModule,
     MatButtonModule,
     MatSidenavModule,
@@ -51,9 +63,13 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
     ReactiveFormsModule,
     MatProgressSpinnerModule,
     ToastrModule.forRoot(),
-    MDBBootstrapModule.forRoot()
+    MDBBootstrapModule.forRoot(),
+    RouterModule.forRoot(APP_ROUTES),
+    HomeModule,
+    CountdownModule ,
+    NgxSpinnerModule
   ],
-  providers: [],
+  providers: [AuthguardService,AuthService,CookieService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

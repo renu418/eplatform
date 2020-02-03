@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gottyjava
+  labels:
+    app: gottyjava
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gottyjava
+  template:
+    metadata:
+      labels:
+        app: gottyjava
+    spec:
+      hostNetwork: true
+      containers:
+      - name: gottyjava-conatiner
+        image: did09/javagotty
+        imagePullPolicy: IfNotPresent
+        resources: #not there
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            memory: "128Mi"
+            cpu: "500m" #------
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: mongo-storage
+          mountPath: /data
+      volumes:
+      - name: mongo-storage
+        persistentVolumeClaim:
+          claimName: mongo-pv-claim
+  
+        
+      
+      

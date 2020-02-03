@@ -1,0 +1,51 @@
+
+<body >
+
+    <div >
+       <mat-card class="upper jumbotron" style="padding: top -5;">
+           <h3>Prime Number</h3>
+           <p id="fade">Difficulty Level: Easy</p>
+       </mat-card>
+    </div>
+    <div>
+        <mat-card class="upper jumbotron">
+            <p>Given a string str consisting of alphanumeric characters, the task is to check whether the string contains all the digits from 1 to 9.</p>
+               
+                <h4>Examples:</h4>
+                 
+                 <h6>Input:</h6> 
+                <p> str = “Geeks12345for69708”</p>
+               
+                  <h6>Output:</h6>Yes  
+                  <p>All the digits from 0 to 9 are present in the given string.</p> 
+                  
+                  <h6>Input:</h6> str = “Amazing1234”
+                  
+                  <h6> Output:</h6> No
+        </mat-card>
+     </div>
+    <!-- style="height: 65%; display: inline-block;" -->
+
+    <ace-editor #editor  style="height: 65%; display: inline-block; margin-top:40px;  
+     width:80%; margin-left:40px; margin-bottom: 40px;">
+    </ace-editor>
+    
+    
+        <!-- <input type="text" name="FirstName"  style="width:40%; height: 30%;"> -->
+     <div style="width:50%; display:inline-block" class="upper"><a (click)="change()"> <mat-icon style="vertical-align: middle; ">label</mat-icon> Provide Custom Input</a>
+        <div style="width:40%" *ngIf="show">
+            <textarea rows="4" cols="70">
+           custom input...
+            </textarea>
+        </div>
+    </div> 
+    <div style="width:50%; display:inline-block" class="upper">
+        <button type="submit" class="btn btn-success" style="float:left; width:15%;margin-right:30px;font-size: small;" >Run</button>
+        <button class="btn btn-info" style="float:left; width:15%; margin-right:30px;font-size: small;" >Submit</button>
+    </div>
+
+<div style="height:20%"></div>
+
+
+
+</body>

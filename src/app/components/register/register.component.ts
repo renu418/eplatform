@@ -4,7 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { EportalService } from "src/app/services/eportal.service";
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ToastrService } from "ngx-toastr";
-
+import { NgxSpinnerService } from 'ngx-spinner';
+import { CookieService } from 'ngx-cookie-service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -21,14 +22,18 @@ export class RegisterComponent implements OnInit {
   constructor(private router: Router,
     private service: EportalService,
     private http: HttpClient,
-    private tostr: ToastrService
-  ) { }
+    private tostr: ToastrService,
+    private spinner:NgxSpinnerService,
+    private cookieService: CookieService
+  ) { 
+    // localStorage.setItem("activate","false")
+  
+}
 
   ngOnInit() {
-
+    this.cookieService.set("activate","false") 
     this.registerForm = new FormGroup({
       fullName: new FormControl('', Validators.required),
-      password: new FormControl('', Validators.required),
       CGPA: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.email]),
       UniversityName: new FormControl('', Validators.required),
@@ -37,9 +42,7 @@ export class RegisterComponent implements OnInit {
 
     });
   }
-  // onSubmit(){
-  //   this.registerForm.value.fullName
-  // }
+
   onSubmit() {
     this.submitted = true;
     if (this.registerForm.invalid) {
@@ -49,6 +52,10 @@ export class RegisterComponent implements OnInit {
     // this.changeTo();
     this.insertInfo();
 
+  }
+  nextPage() {
+    console.log("//////////nextpage///////////")
+    this.router.navigate(['/home']);
   }
 
   changeTo() {
@@ -65,67 +72,80 @@ export class RegisterComponent implements OnInit {
       err => { console.log("got this error:", err) });
   }
 
-  nextPage() {
-    console.log("//////////nextpage///////////")
-    this.router.navigate(['/home']);
-  }
+ 
 
   onItemChange(event) {
     console.log(this.registerForm.value.languageSelect);
 
     this.radioSelected = this.registerForm.value.languageSelect;
     console.log(this.radioSelected);
+
+    var lang=this.radioSelected
+    if(lang=='Java')
+    {
+      let payload={"deploy":"gottyjava",
+      "service":"javaservice",
+      "py_filepath":"../data/spawn_ctr_rtrn_url.py",
+      "service_filepath":"../data/javagottyservice.yaml",
+      "deploy_filepath":"../data/javagottydeploy.yaml"}   
+      console.log(payload)
+      this.service.changeGottyFiles(payload).subscribe(res=>{
+        console.log(res)
+      })
+
+
+    }else if(lang=='Python'){
+
+    }
+ 
   }
 
+  
+
   insertInfo() {
-    // console.log("datafromform: ",this.registerForm.value.languageSelect);
-    // console.log("datafromform: ",this.registerForm.value.CGPA)
     let Data = {
       "name": this.registerForm.value.fullName,
       "CGPA": this.registerForm.value.CGPA,
-      "password": this.registerForm.value.password,
       "email": this.registerForm.value.email,
       "college": this.registerForm.value.UniversityName,
       "language": this.registerForm.value.languageSelect
     }
     console.log("userdata:", Data)
+    this.spinner.show();
+    setTimeout(() => {
+    this.spinner.hide();
     this.service.userDataInsert(Data).subscribe(result => {
       // this.tostr.error("Username or password is wrong")
       console.log("response from db: ", result);
+      
+         
+      
+        
+          // this.router.navigate(['/home'])
+          
+         
         
         if(result['statuscode']==200)
         {
-          this.registerForm.reset();
-          this.nextPage();
-          this.changeTo();
+          this.changeTo(); 
+          this.router.navigate(['/home'])
+          console.log("mailData:",Data)
+         this.service.sendMail(Data).subscribe(content =>{
+
+          console.log("response from mail: ", content);
+         })
+          // this.nextPage();
+          
         }
-        // else if(result['statuscode']==401){
-        //     this.registerForm.reset();
-        //     this.tostr.error("password is wrong","ERROR")
-        // }
-        // else if(result['statuscode']==404){
-        //   this.registerForm.reset();
-        //   this.tostr.error("user not found","ERROR")
-        // }
+        else if(result['statuscode']==404)
+        {
+          this.registerForm.reset();
+          this.tostr.error("user already exist with this email","ERROR")
+        }
         
 
-    })
-        //alert("Login Successfully")
-      //  },error=>{
-      //    this.registerForm.reset();
-      //    this.tostr.error("Username or password is wrong")}
-      //    //alert("Username or password is wrong")}
-      //  ) 
+    })}, 3000);
 
-       
-      // if (result == "True") {
-      //   this.nextPage();
-      //   this.changeTo();
-      // }
-      // else {
-      //   this.registerForm.reset();
-      //   this.tostr.error("Username or password is wrong")
-      // }
   }
       
 }

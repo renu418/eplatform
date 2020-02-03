@@ -1,0 +1,42 @@
+document.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem('timerRunning') === 'true')
+        startTimer();
+    else
+        displayTime(parseInt(localStorage.getItem('timestamp')));
+    });
+    let timer;
+    let startTimestamp = parseInt(localStorage.getItem('timestamp'));
+    function displayTime(timestamp) {
+        if (timestamp)
+            display(Date.now() - timestamp);
+        else
+            display(0);
+    }
+    function startTimer() {
+        let timestamp = parseInt(localStorage.getItem('timestamp')) || Date.now();
+        localStorage.setItem('timestamp', timestamp.toString());
+        localStorage.setItem('timerRunning', 'true');
+        clearInterval(timer);
+        timer = setInterval(() => displayTime(timestamp), 100);
+    }
+    function stopTimer() {
+        localStorage.setItem('timerRunning', 'false');
+        clearInterval(timer);
+    }
+    function resetTimer() {
+        localStorage.removeItem('timestamp');
+        display(0);
+    }
+    function display(milliseconds) {
+        let el = document.getElementById('timer');
+        if (el)
+            el.innerHTML = msToTime(milliseconds);
+    }
+    
+    function msToTime(duration) {
+        var milliseconds = parseInt((duration % 1000) / 100), seconds = parseInt((duration / 1000) % 60), minutes = parseInt((duration / (1000 * 60)) % 60), hours = parseInt((duration / (1000 * 60 * 60)) % 24);
+        hours = (hours < 10) ? "0" + hours : hours;
+        minutes = (minutes < 10) ? "0" + minutes : minutes;
+        seconds = (seconds < 10) ? "0" + seconds : seconds;
+        return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
+    }

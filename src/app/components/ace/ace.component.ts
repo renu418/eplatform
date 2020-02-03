@@ -3,7 +3,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { EportalService } from "src/app/services/eportal.service";
 import { HomeComponent } from '../home/home.component';
-import {DomSanitizer,SafeResourceUrl} from '@angular/platform-browser'
+import {DomSanitizer,SafeResourceUrl} from '@angular/platform-browser';
+import { AuthService } from 'src/app/services/auth.service';
+import {NavService} from 'src/app/services/nav.service'
+import { ThrowStmt } from '@angular/compiler';
+import { CookieService } from 'ngx-cookie-service';
 @Component({
 
   selector: 'app-ace',
@@ -18,28 +22,29 @@ export class AceComponent {
   URL = "";
   urlsafe: SafeResourceUrl;
   notifications = 0;
-  showSpinner=false;
-  // @Input() gottyURL: string;
-
-  // public href: string = "";
+  count:any;
   fileName = "";
   ExecuteMyFunction(value: any): void {
     console.log(value);
   }
-
+  
   @ViewChild('editor', { static: false }) editor;
   @ViewChild(HomeComponent, { static: false }) home;
-
+ 
   constructor(private router: Router,
     private route: ActivatedRoute,
     private service: EportalService,
     private http: HttpClient,
-    public sanitizer: DomSanitizer) { }
-
+    public sanitizer: DomSanitizer,
+    private authservice: AuthService,
+    private navservice:NavService,
+    private cookieService: CookieService) { 
+      
+      // localStorage.setItem("activate","true")
+    }
+    
   ngOnInit() {
-    // this.href = this.router.url;
-    // console.log(this.router.url);
-    // this.loadData();
+    this.cookieService.set("activate","true")  
     this.route.queryParams.subscribe(params => {
       console.log("params:", params.file);
       this.fileName = params.file;
@@ -88,7 +93,7 @@ export class AceComponent {
     });
 
   }
-
+ 
   showfilecontent() {
     console.log('renu');
     console.log(this.fileName)
@@ -102,18 +107,23 @@ export class AceComponent {
       this.editor.value = out;
     });
   }
+  update(){
+    this.authservice.updateLoginStatus(false);
+  }
+
   runtest()
   {
+    this.update()
+    this.authservice.logout();
     this.service.testing().subscribe(out => {
       console.log("response:", out);
     });
   }
+  questionsPage()
+  {
+    this.router.navigate(['/questions']);
+  }
 
-  // loadData(){
-  //   this.showSpinner= true;
-  //   setTimeout(() =>{
-  //     this.showSpinner = false;
-  //   },10000);
-  // }
+  }
 
-}
+

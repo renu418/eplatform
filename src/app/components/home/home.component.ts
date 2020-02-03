@@ -4,6 +4,9 @@ import { HttpClient } from '@angular/common/http';
 import { EportalService } from "src/app/services/eportal.service";
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ToastrService } from "ngx-toastr";
+import { AuthService } from 'src/app/services/auth.service';
+import { NavService } from 'src/app/services/nav.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-home',
@@ -17,55 +20,52 @@ export class HomeComponent implements OnInit {
   gottyURL:string;
   loginForm: FormGroup;
   submitted = false;
+  isLoggedIn = false;
   
   constructor(private router: Router,
     private service: EportalService,
-     private http: HttpClient,
-     private tostr: ToastrService) { }
+    private http: HttpClient,
+    private tostr: ToastrService,
+    private authservice: AuthService,
+    private navService: NavService,
+    private cookieService: CookieService) {
+      // localStorage.setItem("activate","false") 
+     
+    }
 
   ngOnInit() {
-    
-    this.service.getService().subscribe((out: any) => { 
-      console.log(out);
-      this.input =out;
-     
-    });
+    this.cookieService.set("activate","false") 
     this.loginForm = new FormGroup({
       password: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.email])
     });
+   
   
   }
-  
+
   onSubmit() {
     this.submitted = true;
     if (this.loginForm.invalid) {
       return;
     }
-
-    // this.changeTo();
+   
     this.validateEmail();
 
   }
-  // changeTo() {
-  //   this.service.getURL().subscribe(res => {
-  //     console.log("url: ",res);
-  //     console.log("resurl: ",res['response'])
-  //     this.gottyURL= res['response']
-  //     localStorage.setItem("url", res['response'])
-
-  //   },
-  //   err => {console.log("got this error:",err)});
-  // }
+  signUp(){
+    console.log('in register')
+    this.router.navigate(['/register']);
+    console.log('in register')
+  }
 
   nextPage() {
     console.log("//////////nextpage///////////")
     this.router.navigate(['/questions']);
   }
+ 
+
 
   validateEmail() {
-    // console.log("datafromform: ",this.registerForm.value.languageSelect);
-    // console.log("datafromform: ",this.registerForm.value.CGPA)
     let userData = {
       
       "password": this.loginForm.value.password,
@@ -74,12 +74,17 @@ export class HomeComponent implements OnInit {
     }
     console.log("userdata:", userData)
     this.service.validateEmail(userData).subscribe(result => {
-      // this.tostr.error("Username or password is wrong")
       console.log("response from db: ", result);
         
         if(result['statuscode']==200)
-        {
+        { console.log("200")
           this.loginForm.reset();
+          console.log("token: ",result['token'])
+          localStorage.setItem('token', result['token']);
+          this.authservice.setTime()
+          // localStorage.setItem('lastAction', new Date().toISOString());
+          this.authservice.updateLoginStatus(true);
+          // this.authservice.setTimer();
           this.nextPage();
           
         }

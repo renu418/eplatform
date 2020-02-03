@@ -1,17 +1,4 @@
-<header>
-    <div class="logo-image">
-      <img src="assets/images/GS_Lab-Color-RGB.png" class="img-fluid"
-        style="height:47px; width:100px; margin-top:-12px; margin-left:-10px;">
-      <!-- LOGO  -->
-    </div>
-    <ul class="my-nav">
-      <li class="navlink"><a href="#">Timer</a></li>
-      <li class="navlink"><a href="#">SUBMIT</a></li>
-    </ul>
-    <div class="burger">
-      <i class="fas fa-bars"></i>
-    </div>
-  </header>
+
   <div class="col-md-4 col-md-offset-4" id="login">
   
     <section id="inner-wrapper" class="login">
@@ -21,7 +8,7 @@
             <div class="input-group">
               <span class="input-group-addon"><i class="fa fa-envelope"> </i></span>
               <input type="email" class="form-control" placeholder="Email Address*" formControlName="email" [ngClass]="{ 'is-invalid': submitted && loginForm.get('email').errors }">
-              <!-- <div *ngIf="loginForm.invalid" >  -->
+
                 <div *ngIf="submitted && loginForm.get('email').errors && loginForm.get('email').touched" class="invalid-feedback">
                 <div *ngIf="loginForm.get('email').errors.email">Email must be a valid email address</div>
                 <div *ngIf="loginForm.get('email').errors.required">email is required</div>
@@ -32,7 +19,6 @@
             <div class="input-group">
               <span class="input-group-addon"><i class="fa fa-key"> </i></span>
               <input type="password" class="form-control" placeholder="Password*" formControlName="password"  [ngClass]="{ 'is-invalid': submitted && loginForm.get('password').errors }">
-              <!-- <div *ngIf="loginForm.invalid" >  -->
                 <div *ngIf="submitted && loginForm.get('password').errors && loginForm.get('password').touched" class="invalid-feedback">
                   <div *ngIf="loginForm.get('password').errors.required">password is required</div>
               </div>
@@ -40,10 +26,11 @@
           </div>
           
           
-          <button type="submit" class="btn btn-dark btn-block" style="margin-top: 20px;">Login</button>
-           <!-- [disabled]="loginForm.invalid" -->
-           <!-- (click)="callTwo()" -->
+          <button type="submit" class="btn btn-dark btn-block" style="margin-top: 20px;"><mat-icon style="vertical-align: middle; margin-right: 6px;align-items: center;" 
+            class="material-icons">forward</mat-icon>Login</button>
         </form>
+        <button type="submit" class="btn btn-dark btn-block"  style="margin-top: 20px;" (click)="signUp()" ><mat-icon style="vertical-align: middle; margin-right: 6px;align-items: center;" 
+          class="material-icons">person_add</mat-icon> Sign Up</button>
       </article>
     </section>
   </div>

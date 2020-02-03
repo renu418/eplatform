@@ -8,23 +8,21 @@ export class EportalService {
 
   constructor(private http: HttpClient) { }
 
-
-
-
-  getService() {
-    return this.http.get("http://api.myjson.com/bins/1227ck");
+  changeGottyFiles(payload){
+    return this.http.post("http://192.168.99.100:31022/changeGottyFiles",payload)
   }
-
+  
   fileAndData(data) {
+    // return this.http.post("http://192.168.99.100:31022/getvalue", data);
     return this.http.post("http://192.168.99.100:31022/getvalue", data);
-    // return this.http.post("http://0.0.0.0:5031/getvalue", data);
   }
+  
   showcontent(file) {
     return this.http.post("http://192.168.99.100:31022/getfile", file);
   }
+  
   getURL(lang) {
     return this.http.post("http://192.168.99.100:31022/get", lang);
-    // return this.http.get("http://backend-server.com:5031/get/python");
   }
 
   getQuestions() {
@@ -32,8 +30,6 @@ export class EportalService {
   }
 
   validateEmail(userData) {
-    // let headers = new HttpHeaders();
-    // headers = headers.set('Content-Type', 'application/json; charset=utf-8');
     return this.http.post("http://192.168.99.100:31022/emailValidation", userData);
   }
 
@@ -45,5 +41,9 @@ export class EportalService {
   {
     return this.http.post("http://192.168.99.100:31022/userDataInsert",Data);
   }
-
+  
+  sendMail(Data)
+  {
+    return this.http.post("http://192.168.99.100:31022/sendEmail",Data);
+  }
 }

@@ -1,32 +1,16 @@
-<header>
-    <div class="logo-image">
-        <img src="assets/images/GS_Lab-Color-RGB.png" class="img-fluid" style="height:47px; width:100px; margin-top:-12px; margin-left:-10px;">
-        <!-- LOGO  -->
-    </div>
-    <ul class="my-nav">
-            <li class="navlink"><a href="#">Timer</a></li>
-            <li class="navlink"><a href="#">SUBMIT</a></li>
-    </ul>
-    <div class="burger">
-            <i class="fas fa-bars"></i>
-    </div>
-  </header>
-  <!-- <div *ngIf="loading else loaded">
-    loading ...
-</div> -->
-<!-- <ng-template*ngIf="!loading">  -->
 
 <div class="frame1" >
+    
         <ace-editor #editor style="height: 100%; display: inline-block;">
         </ace-editor>
 </div>
 
 <div class="frame" >
-    <!-- <mat-spinner *ngIf="showSpinner"></mat-spinner> -->
-    <!-- -->
-    <iframe id="gotty" align="top" height="90%" width="100%"  [src]="urlsafe"   display="inline-block"></iframe>
-    <!-- <button id="save" (click)='getValue()'>save</button> -->
+    <!-- [src]="urlsafe" src="http://123" -->
+    <iframe id="gotty" align="top" height="90%" width="100%" [src]="urlsafe"   display="inline-block"></iframe>
     <button id="save" class="btn btn-primary btn-lg" (click)='getValue()' >save</button>
-    <button id="endTest" class="btn btn-info btn-lg" (click)='runtest()'>End Test</button>
+    <button id="back" class="btn btn-dark btn-lg"  (click)='questionsPage()'><mat-icon style="vertical-align: middle; margin-right: 6px;align-items: center;" 
+        class="material-icons">keyboard_backspace</mat-icon></button>
+    <button id="endTest" class="btn btn-primary btn-lg" (click)='runtest()'>End Test</button>
 </div>
 <!-- </ng-template> -->

@@ -1,0 +1,19 @@
+<header>
+<div class="logo-image">
+    <img src="assets/images/GS_Lab-Color-RGB.png" class="img-fluid"
+            style="height:47px; width:100px; margin-top:-12px; margin-left:-10px;">
+    <!-- LOGO *ngIf="activate==='true'" -->
+</div>
+<ul class="my-nav"  *ngIf="isLoggedIn">
+     <li class="navlink" ><countdown [config]="{leftTime: 120}"></countdown></li> 
+    <li class="navlink" (click)="logout()"> <mat-icon style="vertical-align: middle; margin-right: 6px;align-items: center;" 
+    class="material-icons">lock</mat-icon>Logout</li>
+    <!-- <li class="navlink" (click)="questionsPage()" > <mat-icon  style="vertical-align: middle; margin-right: 6px; align-items: center;"
+        class="material-icons">keyboard_backspace</mat-icon></li>  -->
+    
+
+</ul>
+<div class="burger">
+    <i class="fas fa-bars"></i>
+</div>
+</header>
