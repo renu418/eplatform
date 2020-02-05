@@ -19,7 +19,7 @@ EXPOSE 5031
 
 # RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 # RUN dpkg -i google-chrome-stable_current_amd64.deb; apt-get -fy install
-ENV FILEPATH /data/my-app/src/main/java/com/mycompany/app/
+# ENV FILEPATH /data/my-app/src/main/java/com/mycompany/app/
 
 ENTRYPOINT ["python3"]
 CMD ["run.py"]

@@ -26,6 +26,7 @@ import jwt
 import datetime
 import pydash
 from functools import wraps
+
 # import db.functions
 # password="Renugslab"
 # import db.functions
@@ -38,7 +39,7 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 
 
 app.config['SECRET_KEY'] = 'thisissecret'
-filepath = os.environ['FILEPATH']
+# filepath = os.environ['FILEPATH']
 try:
     # client = pymongo.MongoClient("mongodb://localhost:27017/")
     client = pymongo.MongoClient("mongodb://mongoservice")
@@ -57,6 +58,7 @@ random_password=""
 f=open('copy.txt',"r")
 tt = int(f.readlines()[0])
 f.close()
+# os.system('pwd')
 charlist = "qwertyuioplkjhgfdsazxcvbnm1234567890!@#$%^&*()PLMNKOIHVGYTFCXDRESZAQW"
 passwd_len = 10
 
@@ -114,12 +116,24 @@ def set_name():
     print(rf)
     data=rf['val']
     fileName=rf['file']
+    regNum = rf['reg']
     print(data)
     # path=os.path.join('/home/gslab/Documents/',fileName)
-    path=os.path.join(filepath,fileName)
-    with open(path,"w+") as f:
-        f.write(str(data))
-        return data
+    # p='/home/gslab/Documents/data'
+    path1=os.path.join('../data/',regNum)
+    path=os.path.join(path1+"/",fileName)
+    print("---------------path===============",path)
+    print(os.path.isdir(path1))
+    if(os.path.isdir(path1)):
+        with open(path,"w+") as f:
+            f.write(str(data))
+            return data
+    else:
+        # os.system('mkdir '+ p)
+        os.system('mkdir '+ path1)
+        with open(path,"w+") as f:
+            f.write(str(data))
+            return data
     return "done"
 
 #for showing content in ace of a file on clicking show button 
@@ -129,16 +143,19 @@ def get_file_by_name():
     rf=request.get_json()
     print(rf)
     data=rf['val']
+    regNum = rf['reg']
     print(data)
     # path=os.path.join('/home/gslab/Documents/',data)
-    path=os.path.join(filepath,data)
+    
+    path1=os.path.join('../data',regNum)
+    path=os.path.join(path1+"/",data)
     print(path)
-    text = open(path, 'r')
-    content = text.read()
-    print(content)
-    text.close()
-    print(content)
-    return {"response": content}
+    text1 = open(path, 'r')
+    content1 = text1.read()
+    print(content1)
+    text1.close()
+    print(content1)
+    return {"response": content1}
 
 
 @app.route("/changeGottyFiles", methods = ['POST'])

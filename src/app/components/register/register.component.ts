@@ -38,7 +38,7 @@ export class RegisterComponent implements OnInit {
       email: new FormControl('', [Validators.required, Validators.email]),
       UniversityName: new FormControl('', Validators.required),
       languageSelect: new FormControl('', Validators.required),
-
+      RegistrationNumber:new FormControl('',Validators.required)
 
     });
   }
@@ -108,8 +108,10 @@ export class RegisterComponent implements OnInit {
       "CGPA": this.registerForm.value.CGPA,
       "email": this.registerForm.value.email,
       "college": this.registerForm.value.UniversityName,
-      "language": this.registerForm.value.languageSelect
+      "language": this.registerForm.value.languageSelect,
+      "RegNumber":this.registerForm.value.RegistrationNumber
     }
+    localStorage.setItem("regNumber",this.registerForm.value.RegistrationNumber)
     console.log("userdata:", Data)
     this.spinner.show();
     setTimeout(() => {

@@ -24,6 +24,8 @@ export class AceComponent {
   notifications = 0;
   count:any;
   fileName = "";
+  regN="";
+  reg="";
   ExecuteMyFunction(value: any): void {
     console.log(value);
   }
@@ -86,7 +88,8 @@ export class AceComponent {
     console.log(this.editor.value)
     this.input = this.editor.value;
     console.log(this.input)
-    let data = { 'file': this.fileName, 'val': this.input };
+    this.reg=localStorage.getItem('regNumber')
+    let data = { 'file': this.fileName, 'val': this.input ,'reg':this.reg };
     console.log(data)
     this.service.fileAndData(data).subscribe(res => {
       console.log(res);
@@ -97,7 +100,8 @@ export class AceComponent {
   showfilecontent() {
     console.log('renu');
     console.log(this.fileName)
-    let file = { 'val': this.fileName };
+    this.regN=localStorage.getItem('regNumber')
+    let file = { 'val': this.fileName,'reg':this.regN };
     console.log("showcontent:", file)
     this.service.showcontent(file).subscribe(out => {
       console.log("response:", out);
@@ -115,7 +119,9 @@ export class AceComponent {
   {
     this.update()
     this.authservice.logout();
-    this.service.testing().subscribe(out => {
+    localStorage.getItem('regNumber')
+    let data={"reg": localStorage.getItem('regNumber') }
+    this.service.testing(data).subscribe(out => {
       console.log("response:", out);
     });
   }

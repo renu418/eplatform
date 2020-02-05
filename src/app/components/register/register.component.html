@@ -36,6 +36,16 @@
         <div class="form-group">
           <div class="input-group">
             <span class="input-group-addon"><i class="fa fa-key"> </i></span>
+            <input type="text" class="form-control" placeholder="Registration Number*" formControlName="RegistrationNumber"  [ngClass]="{ 'is-invalid': submitted && registerForm.get('RegistrationNumber').errors }">
+            <div *ngIf="submitted && registerForm.get('RegistrationNumber').errors && registerForm.get('RegistrationNumber').touched" class="invalid-feedback">
+            
+              <div *ngIf="registerForm.get('RegistrationNumber').errors.required">Registration Number is required</div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-key"> </i></span>
             <input type="text" class="form-control" placeholder="Univeristy/College Name*" formControlName="UniversityName"  [ngClass]="{ 'is-invalid': submitted && registerForm.get('UniversityName').errors }">
             <div *ngIf="submitted && registerForm.get('UniversityName').errors && registerForm.get('UniversityName').touched" class="invalid-feedback">
             

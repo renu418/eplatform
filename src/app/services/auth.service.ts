@@ -26,7 +26,7 @@ export class AuthService {
   setTime()
   {
 
-    this.timeout=2*60*1000;
+    this.timeout=30*60*1000;
     this.setTimer()
   }
   isAuthenticated(): boolean {

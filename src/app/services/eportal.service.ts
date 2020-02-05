@@ -33,8 +33,8 @@ export class EportalService {
     return this.http.post("http://192.168.99.100:31022/emailValidation", userData);
   }
 
-  testing(){
-    return this.http.get("http://192.168.99.100:30881/testing");
+  testing(data){
+    return this.http.get("http://192.168.99.100:30164/tesing",data);
   }
 
   userDataInsert(Data)
